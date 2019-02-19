@@ -37,7 +37,7 @@ class TestProcessTextChunks(private val input:Collection<String>, private val ex
         }
         val testSubscriber = TestSubscriber<Collection<String>>()
         //act
-        splitTextChunksByWords(chunks).subscribe(testSubscriber)
+        chunks.splitTextChunksByWords().subscribe(testSubscriber)
         //assert
         testSubscriber.assertComplete()
         testSubscriber.assertNoErrors()

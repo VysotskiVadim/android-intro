@@ -4,8 +4,8 @@ import io.reactivex.Flowable
 import io.reactivex.functions.BiFunction
 import java.util.regex.Pattern
 
-fun splitTextChunksByWords(chunks:Flowable<String>):Flowable<Collection<String>> {
-    val wordsFromText = chunks.scan(LastValueAccumulator(listOf(), ""), BiFunction(::textToWords))
+fun Flowable<String>.splitTextChunksByWords():Flowable<Collection<String>> {
+    val wordsFromText = this.scan(LastValueAccumulator(listOf(), ""), BiFunction(::textToWords))
     val accumulatedWord = wordsFromText.lastElement().filter { it.lastWord.isNotEmpty() }.map { listOf(it.lastWord) }
     return wordsFromText.map { it.result }.mergeWith(accumulatedWord)
 }
