@@ -1,14 +1,12 @@
 package com.example.droidintro
 
 import io.reactivex.BackpressureStrategy
-import io.reactivex.Flowable
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.subscribers.TestSubscriber
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-
 
 
 @RunWith(Parameterized::class)
@@ -19,7 +17,8 @@ class TestProcessTextChunks(private val input:Collection<String>, private val ex
         @Parameterized.Parameters
         fun data(): Collection<Array<Any>> = listOf(
             arrayOf( listOf("word"), arrayOf("word")),
-            arrayOf( listOf("first second"), arrayOf("first", "second"))
+            arrayOf( listOf("first second"), arrayOf("first", "second")),
+            arrayOf( listOf("first seco", "nd third"), arrayOf("first", "second", "third"))
         )
     }
 
