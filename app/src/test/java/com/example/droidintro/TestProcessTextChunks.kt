@@ -18,7 +18,8 @@ class TestProcessTextChunks(private val input:Collection<String>, private val ex
         @JvmStatic
         @Parameterized.Parameters
         fun data(): Collection<Array<Any>> = listOf(
-            arrayOf( listOf("word"), arrayOf("word"))
+            arrayOf( listOf("word"), arrayOf("word")),
+            arrayOf( listOf("first second"), arrayOf("first", "second"))
         )
     }
 
@@ -38,7 +39,6 @@ class TestProcessTextChunks(private val input:Collection<String>, private val ex
         //assert
         testSubscriber.assertComplete()
         testSubscriber.assertNoErrors()
-        testSubscriber.assertValueCount(expected.count())
         Assert.assertArrayEquals(testSubscriber.values().flatten().toTypedArray(), expected)
     }
 }
