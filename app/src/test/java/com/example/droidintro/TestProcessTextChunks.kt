@@ -1,0 +1,44 @@
+package com.example.droidintro
+
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
+import io.reactivex.rxkotlin.Flowables
+import io.reactivex.subscribers.TestSubscriber
+import org.junit.Assert
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
+
+
+
+@RunWith(Parameterized::class)
+class TestProcessTextChunks(private val input:Collection<String>, private val expected:Array<String>) {
+
+    companion object {
+        @JvmStatic
+        @Parameterized.Parameters
+        fun data(): Collection<Array<Any>> = listOf(
+            arrayOf( listOf("word"), arrayOf("word"))
+        )
+    }
+
+
+    @Test
+    fun processSimpleText() {
+        //arrange
+        val chunks = Flowables.create<String>(BackpressureStrategy.BUFFER) {
+            for (i in input) {
+                it.onNext(i)
+            }
+            it.onComplete()
+        }
+        val testSubscriber = TestSubscriber<Collection<String>>()
+        //act
+        splitTextChunksByWords(chunks).subscribe(testSubscriber)
+        //assert
+        testSubscriber.assertComplete()
+        testSubscriber.assertNoErrors()
+        testSubscriber.assertValueCount(expected.count())
+        Assert.assertArrayEquals(testSubscriber.values().flatten().toTypedArray(), expected)
+    }
+}
