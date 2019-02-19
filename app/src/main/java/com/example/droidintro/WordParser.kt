@@ -16,12 +16,25 @@ private object Constants {
 
 private data class LastValueAccumulator(val result:Collection<String>, val lastWord:String)
 
-private fun textToWords(accumulator:LastValueAccumulator, text:String):LastValueAccumulator {
+private fun textToWords(accumulator:LastValueAccumulator, chunkOfText:String):LastValueAccumulator {
     val result = mutableListOf<String>()
-    val matcher = Constants.wordPattern.matcher(text)
-    if (accumulator.lastWord.isNotEmpty() && matcher.find() && matcher.start() == 0) {
-        result.add(accumulator.lastWord + matcher.group())
+    val matcher = Constants.wordPattern.matcher(chunkOfText)
+    if (accumulator.lastWord.isNotEmpty()){
+        if (matcher.find()) {
+            if (matcher.start() == 0) {
+                result.add(accumulator.lastWord + matcher.group())
+            }
+            else {
+                result.add(accumulator.lastWord)
+                result.add(matcher.group())
+            }
+        }
+        else {
+            result.add(accumulator.lastWord)
+        }
+
     }
+
     while (matcher.find()) {
         result.add( matcher.group())
     }

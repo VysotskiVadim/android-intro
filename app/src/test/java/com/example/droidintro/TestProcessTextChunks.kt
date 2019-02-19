@@ -18,13 +18,15 @@ class TestProcessTextChunks(private val input:Collection<String>, private val ex
         fun data(): Collection<Array<Any>> = listOf(
             arrayOf( listOf("word"), arrayOf("word")),
             arrayOf( listOf("first second"), arrayOf("first", "second")),
-            arrayOf( listOf("first seco", "nd third"), arrayOf("first", "second", "third"))
+            arrayOf( listOf("first seco", "nd third"), arrayOf("first", "second", "third")),
+            //arrayOf( listOf("first second ", "third"), arrayOf("first", "second", "third")),
+            arrayOf( listOf("first second", " third"), arrayOf("first", "second", "third"))
         )
     }
 
 
     @Test
-    fun processSimpleText() {
+    fun testProcessTextSplitByChunks() {
         //arrange
         val chunks = Flowables.create<String>(BackpressureStrategy.BUFFER) {
             for (i in input) {
