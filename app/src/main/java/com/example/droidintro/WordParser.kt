@@ -19,6 +19,7 @@ private data class LastValueAccumulator(val result:Collection<String>, val lastW
 private fun textToWords(accumulator:LastValueAccumulator, chunkOfText:String):LastValueAccumulator {
     val result = mutableListOf<String>()
     val matcher = Constants.wordPattern.matcher(chunkOfText)
+    var lastWordPosition = -2
     if (accumulator.lastWord.isNotEmpty()){
         if (matcher.find()) {
             if (matcher.start() == 0) {
@@ -37,7 +38,10 @@ private fun textToWords(accumulator:LastValueAccumulator, chunkOfText:String):La
 
     while (matcher.find()) {
         result.add( matcher.group())
+        lastWordPosition = matcher.end()
     }
-    val lastWord = if (result.isNotEmpty()) result.removeAt(result.size - 1) else ""
+
+    val isLastWordProbablyInTheNextChunk = lastWordPosition == chunkOfText.length
+    val lastWord = if (result.isNotEmpty() && isLastWordProbablyInTheNextChunk) result.removeAt(result.size - 1) else ""
     return LastValueAccumulator(result, lastWord)
 }
