@@ -22,6 +22,7 @@ private fun textToWords(accumulator:LastValueAccumulator, chunkOfText:String):La
     var lastWordPosition = -2
     if (accumulator.lastWord.isNotEmpty()){
         if (matcher.find()) {
+            lastWordPosition = matcher.end()
             if (matcher.start() == 0) {
                 result.add(accumulator.lastWord + matcher.group())
             }

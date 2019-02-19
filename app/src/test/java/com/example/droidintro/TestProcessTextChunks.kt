@@ -20,6 +20,7 @@ class TestProcessTextChunks(private val input:Collection<String>, private val ex
             arrayOf( listOf("first second"), arrayOf("first", "second")),
             arrayOf( listOf("first seco", "nd third"), arrayOf("first", "second", "third")),
             arrayOf( listOf("first second ", "third"), arrayOf("first", "second", "third")),
+            arrayOf( listOf("first", " s","econd third"), arrayOf("first", "second", "third")),
             arrayOf( listOf("first second", " third"), arrayOf("first", "second", "third"))
         )
     }
