@@ -1,10 +1,11 @@
 package com.example.droidintro.wordcounter
 
 import com.example.droidintro.ProcessingProgress
+import com.example.droidintro.wordprovider.WordProviderResult
 import io.reactivex.Flowable
 
 interface WordsCounter {
-    fun countWords(words:Flowable<Collection<String>>):Flowable<WordsCounterResult>
+    fun countWords(words:Flowable<WordProviderResult>):Flowable<WordsCounterResult>
 }
 
 sealed class WordsCounterResult

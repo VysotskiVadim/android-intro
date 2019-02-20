@@ -1,8 +1,8 @@
 package com.example.droidintro.wordprovider
 
-import com.example.droidintro.WordsSource
-import org.reactivestreams.Publisher
+import com.example.droidintro.TextSource
+import io.reactivex.Flowable
 
 interface WordsProvider {
-    fun getWords(wordSource:WordsSource): Publisher<WordProviderResult>
+    fun getWords(wordSource:TextSource): Flowable<WordProviderResult>
 }
