@@ -9,6 +9,7 @@ interface WordsCounter {
 
 sealed class WordsCounterResult
 data class WordsCounterInProgress(val progress:ProcessingProgress) : WordsCounterResult()
+//TODO: use pagination for result
 data class WordsCounterProcessingCompleted(val result:Collection<Word>) : WordsCounterResult()
 
 data class Word(val value:String, var count:Int)
