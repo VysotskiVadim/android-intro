@@ -1,5 +1,7 @@
 package com.example.droidintro
 
+import com.example.droidintro.wordprovider.PartialResult
+import com.example.droidintro.wordprovider.WordProviderResult
 import com.example.droidintro.wordprovider.textInputToFlowable
 import io.reactivex.subscribers.TestSubscriber
 import org.junit.Test
@@ -10,7 +12,7 @@ class TestInputFlowableAdapter {
     fun testInputToFlowable() {
         //arrange
         val input = inputFromText("testdata x")
-        val testSubscriber = TestSubscriber<String>()
+        val testSubscriber = TestSubscriber<WordProviderResult>()
 
         //act
         textInputToFlowable(input, 4).subscribe(testSubscriber)
@@ -19,6 +21,6 @@ class TestInputFlowableAdapter {
         testSubscriber.assertComplete()
         testSubscriber.assertNoErrors()
         testSubscriber.assertValueCount(3)
-        assertArrayEquals(testSubscriber.values().toTypedArray(), arrayOf("test", "data", " x"))
+        assertArrayEquals(testSubscriber.values().map { when(it) { is PartialResult -> it.words.first() } }.toTypedArray(), arrayOf("test", "data", " x")) //TODO: remove workaround
     }
 }

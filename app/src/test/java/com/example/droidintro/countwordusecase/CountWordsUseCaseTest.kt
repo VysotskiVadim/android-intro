@@ -6,6 +6,7 @@ import com.example.droidintro.inputFromText
 import com.example.droidintro.textprovider.Text
 import com.example.droidintro.textprovider.TextInStream
 import com.example.droidintro.textprovider.TextProvider
+import com.example.droidintro.wordcounter.WordsCounterProcessingCompleted
 import com.example.droidintro.wordcounter.WordsCounterResult
 import com.example.droidintro.wordcountusecase.CountWordsInTextUseCase
 import io.reactivex.Single
@@ -16,6 +17,7 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnit
+import org.junit.Assert.*
 
 class CountWordsUseCaseTest {
 
@@ -41,5 +43,9 @@ class CountWordsUseCaseTest {
         val subscriber = TestSubscriber<WordsCounterResult>()
 
         useCase.countWords(DownloadFromInternet("doesn't matter what is here")).subscribe(subscriber)
+
+        subscriber.assertComplete()
+        val result:WordsCounterProcessingCompleted = subscriber.values().last() as WordsCounterProcessingCompleted
+        assertArrayEquals(result.result.toTypedArray(), arrayOf("test", "text"))
     }
 }
