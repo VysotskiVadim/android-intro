@@ -1,4 +1,4 @@
-package com.example.droidintro
+package com.example.droidintro.wordprovider
 
 import io.reactivex.Emitter
 import io.reactivex.Flowable
