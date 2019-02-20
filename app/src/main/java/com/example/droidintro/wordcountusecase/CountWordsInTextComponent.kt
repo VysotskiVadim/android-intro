@@ -8,8 +8,7 @@ import dagger.Component
 @Component(modules = [
     TextProviderModule::class,
     WordsProviderModule::class,
-    WordCounterModule::class,
-    TextProviderModule::class
+    WordCounterModule::class
 ])
 interface CountWordsInTextComponent {
     fun getUseCase():CountWordsInTextUseCase

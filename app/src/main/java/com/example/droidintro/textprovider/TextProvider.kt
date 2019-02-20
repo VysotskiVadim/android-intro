@@ -9,5 +9,5 @@ interface TextProvider {
 }
 
 sealed class Text
-data class TextInStream(val stream:InputStream)
+data class TextInStream(val stream:InputStream) : Text()
 
