@@ -17,6 +17,7 @@ class TestProcessTextChunks(private val input:Collection<String>, private val ex
         @JvmStatic
         @Parameterized.Parameters
         fun data(): Collection<Array<Any>> = listOf(
+            arrayOf( listOf("test text"), arrayOf("test", "text")),
             arrayOf( listOf("word"), arrayOf("word")),
             arrayOf( listOf("first second"), arrayOf("first", "second")),
             arrayOf( listOf("first seco", "nd third"), arrayOf("first", "second", "third")),

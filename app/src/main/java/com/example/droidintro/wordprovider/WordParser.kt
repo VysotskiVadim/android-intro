@@ -7,7 +7,7 @@ import java.util.regex.Pattern
 fun Flowable<String>.splitTextChunksByWords():Flowable<Collection<String>> {
     val wordsFromText = this.scan(LastValueAccumulator(listOf(), ""), BiFunction(::textToWords))
     val accumulatedWord = wordsFromText.lastElement().filter { it.lastWord.isNotEmpty() }.map { listOf(it.lastWord) }
-    return wordsFromText.map { it.result }.mergeWith(accumulatedWord)
+    return wordsFromText.filter { it.result.isNotEmpty() }.map { it.result }.mergeWith(accumulatedWord)
 }
 
 private object Constants {
