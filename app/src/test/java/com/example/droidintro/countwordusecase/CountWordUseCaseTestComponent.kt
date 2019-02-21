@@ -1,8 +1,8 @@
 package com.example.droidintro.countwordusecase
 
-import com.example.droidintro.wordcounter.WordCounterModule
+import com.example.droidintro.wordcountusecase.wordcounter.WordCounterModule
 import com.example.droidintro.wordcountusecase.CountWordsInTextComponent
-import com.example.droidintro.wordprovider.WordsProviderModule
+import com.example.droidintro.wordcountusecase.wordprovider.WordsProviderModule
 import dagger.Component
 
 @Component(modules = [

@@ -1,4 +1,4 @@
-package com.example.droidintro.wordcounter
+package com.example.droidintro.wordcountusecase.wordcounter
 
 import dagger.Module
 import dagger.Provides

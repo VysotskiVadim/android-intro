@@ -1,4 +1,4 @@
-package com.example.droidintro.wordprovider
+package com.example.droidintro.wordcountusecase.wordprovider
 
 import com.example.droidintro.ProcessingProgress
 

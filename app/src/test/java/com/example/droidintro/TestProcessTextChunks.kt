@@ -1,10 +1,8 @@
 package com.example.droidintro
 
-import com.example.droidintro.wordprovider.splitTextChunksByWords
-import io.reactivex.BackpressureStrategy
+import com.example.droidintro.wordcountusecase.wordprovider.splitTextChunksByWords
 import io.reactivex.Emitter
 import io.reactivex.Flowable
-import io.reactivex.rxkotlin.Flowables
 import io.reactivex.subscribers.TestSubscriber
 import org.junit.Assert
 import org.junit.Test

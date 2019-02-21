@@ -1,8 +1,8 @@
-package com.example.droidintro.wordprovider
+package com.example.droidintro.wordcountusecase.wordprovider
 
 import com.example.droidintro.ProcessingProgress
-import com.example.droidintro.textprovider.Text
-import com.example.droidintro.textprovider.TextInStream
+import com.example.droidintro.wordcountusecase.textprovider.Text
+import com.example.droidintro.wordcountusecase.textprovider.TextInStream
 import io.reactivex.Flowable
 import javax.inject.Inject
 

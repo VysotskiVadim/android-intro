@@ -1,6 +1,6 @@
 package com.example.droidintro.countwordusecase
 
-import com.example.droidintro.textprovider.TextProvider
+import com.example.droidintro.wordcountusecase.textprovider.TextProvider
 import dagger.Module
 import dagger.Provides
 

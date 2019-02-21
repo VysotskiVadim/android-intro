@@ -1,7 +1,7 @@
-package com.example.droidintro.wordcounter
+package com.example.droidintro.wordcountusecase.wordcounter
 
 import com.example.droidintro.ProcessingProgress
-import com.example.droidintro.wordprovider.WordProviderResult
+import com.example.droidintro.wordcountusecase.wordprovider.WordProviderResult
 import io.reactivex.Flowable
 
 interface WordsCounter {

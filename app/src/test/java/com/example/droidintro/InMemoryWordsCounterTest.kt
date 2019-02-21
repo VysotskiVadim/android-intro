@@ -1,10 +1,10 @@
 package com.example.droidintro
 
-import com.example.droidintro.wordcounter.WordsCounterProcessingCompleted
-import com.example.droidintro.wordcounter.WordsCounterResult
-import com.example.droidintro.wordcounter.countWordsInMemory
-import com.example.droidintro.wordprovider.PartialResult
-import com.example.droidintro.wordprovider.WordProviderResult
+import com.example.droidintro.wordcountusecase.wordcounter.WordsCounterProcessingCompleted
+import com.example.droidintro.wordcountusecase.wordcounter.WordsCounterResult
+import com.example.droidintro.wordcountusecase.wordcounter.countWordsInMemory
+import com.example.droidintro.wordcountusecase.wordprovider.PartialResult
+import com.example.droidintro.wordcountusecase.wordprovider.WordProviderResult
 import io.reactivex.Emitter
 import io.reactivex.Flowable
 import io.reactivex.subscribers.TestSubscriber

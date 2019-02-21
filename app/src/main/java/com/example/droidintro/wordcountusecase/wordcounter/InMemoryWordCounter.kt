@@ -1,9 +1,8 @@
-package com.example.droidintro.wordcounter
+package com.example.droidintro.wordcountusecase.wordcounter
 
-import com.example.droidintro.wordprovider.PartialResult
-import com.example.droidintro.wordprovider.WordProviderResult
+import com.example.droidintro.wordcountusecase.wordprovider.PartialResult
+import com.example.droidintro.wordcountusecase.wordprovider.WordProviderResult
 import io.reactivex.Flowable
-import io.reactivex.Maybe
 import javax.inject.Inject
 
 class InMemoryWordsCounter @Inject constructor() : WordsCounter {

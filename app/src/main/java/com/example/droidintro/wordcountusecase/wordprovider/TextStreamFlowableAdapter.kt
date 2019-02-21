@@ -1,6 +1,5 @@
-package com.example.droidintro.wordprovider
+package com.example.droidintro.wordcountusecase.wordprovider
 
-import com.example.droidintro.ProcessingProgress
 import io.reactivex.Emitter
 import io.reactivex.Flowable
 import io.reactivex.functions.BiConsumer

@@ -1,11 +1,11 @@
 package com.example.droidintro.wordcountusecase
 
-import com.example.droidintro.textprovider.TextProviderModule
-import com.example.droidintro.wordcounter.WordCounterModule
-import com.example.droidintro.wordprovider.WordsProviderModule
-import dagger.Component
+import com.example.droidintro.wordcountusecase.textprovider.TextProviderModule
+import com.example.droidintro.wordcountusecase.wordcounter.WordCounterModule
+import com.example.droidintro.wordcountusecase.wordprovider.WordsProviderModule
+import dagger.Subcomponent
 
-@Component(modules = [
+@Subcomponent(modules = [
     TextProviderModule::class,
     WordsProviderModule::class,
     WordCounterModule::class

@@ -1,4 +1,4 @@
-package com.example.droidintro.textprovider
+package com.example.droidintro.wordcountusecase.textprovider
 
 import dagger.Module
 import dagger.Provides
