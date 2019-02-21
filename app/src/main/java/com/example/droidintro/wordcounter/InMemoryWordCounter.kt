@@ -14,13 +14,14 @@ class InMemoryWordsCounter @Inject constructor() : WordsCounter {
 
 fun Flowable<WordProviderResult>.countWordsInMemory(): Flowable<WordsCounterResult> {
     val wordToUsage = HashMap<String, Int>()
-    val result:Maybe<WordsCounterResult> = this.lastElement().map {
+    val input = this.publish().refCount(2)
+    val result = input.takeLast(1).map {
         when (it) {
             is PartialResult -> countWordsTo(it.words, wordToUsage)
         }
         WordsCounterProcessingCompleted(wordToUsage.map { Word(it.key, it.value) })
     }
-    return this.skipLast(1).doOnNext {
+    return input.skipLast(1).doOnNext {
             when(it) {
                 is PartialResult -> countWordsTo(it.words, wordToUsage)
             }

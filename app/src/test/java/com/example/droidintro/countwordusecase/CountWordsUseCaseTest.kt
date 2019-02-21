@@ -6,6 +6,7 @@ import com.example.droidintro.inputFromText
 import com.example.droidintro.textprovider.Text
 import com.example.droidintro.textprovider.TextInStream
 import com.example.droidintro.textprovider.TextProvider
+import com.example.droidintro.wordcounter.Word
 import com.example.droidintro.wordcounter.WordsCounterProcessingCompleted
 import com.example.droidintro.wordcounter.WordsCounterResult
 import com.example.droidintro.wordcountusecase.CountWordsInTextUseCase
@@ -39,13 +40,17 @@ class CountWordsUseCaseTest {
 
     @Test
     fun test() {
-        Mockito.`when`(textProvider.getText(any())).thenReturn(Single.just<Text>(TextInStream(inputFromText("test text"))))
+        val expectedResultSortedByWords = arrayOf(
+            Word("text", 1),
+            Word("test", 2)
+        )
+        Mockito.`when`(textProvider.getText(any())).thenReturn(Single.just<Text>(TextInStream(inputFromText("test text test"))))
         val subscriber = TestSubscriber<WordsCounterResult>()
 
         useCase.countWords(DownloadFromInternet("")).subscribe(subscriber)
 
         subscriber.assertComplete()
         val result:WordsCounterProcessingCompleted = subscriber.values().last() as WordsCounterProcessingCompleted
-        assertArrayEquals( arrayOf("test", "text"), result.result.toTypedArray())
+        assertArrayEquals( expectedResultSortedByWords , result.result.sortedByDescending { it.value }.toTypedArray())
     }
 }
