@@ -49,6 +49,6 @@ class TestProcessTextChunks(private val input:Collection<String>, private val ex
         //assert
         testSubscriber.assertComplete()
         testSubscriber.assertNoErrors()
-        Assert.assertArrayEquals(testSubscriber.values().flatten().toTypedArray(), expected)
+        Assert.assertArrayEquals(expected, testSubscriber.values().flatten().toTypedArray())
     }
 }
