@@ -40,17 +40,20 @@ class CountWordsUseCaseTest {
 
     @Test
     fun test() {
+        //arrange
         val expectedResultSortedByWords = arrayOf(
             Word("text", 1),
             Word("test", 2)
         )
         Mockito.`when`(textProvider.getText(any())).thenReturn(Single.just<Text>(TextInStream(inputFromText("test text test"))))
         val subscriber = TestSubscriber<WordsCounterResult>()
-
+        //act
         useCase.countWords(DownloadFromInternet("")).subscribe(subscriber)
-
+        //assert
         subscriber.assertComplete()
-        val result:WordsCounterProcessingCompleted = subscriber.values().last() as WordsCounterProcessingCompleted
+        val lastValue = subscriber.values().last();
+        assertTrue("last value should be WordsCounterProcessingCompleted", lastValue is WordsCounterProcessingCompleted)
+        val result:WordsCounterProcessingCompleted = lastValue as WordsCounterProcessingCompleted
         assertArrayEquals( expectedResultSortedByWords , result.result.sortedByDescending { it.value }.toTypedArray())
     }
 }
