@@ -42,10 +42,10 @@ class CountWordsUseCaseTest {
         Mockito.`when`(textProvider.getText(any())).thenReturn(Single.just<Text>(TextInStream(inputFromText("test text"))))
         val subscriber = TestSubscriber<WordsCounterResult>()
 
-        useCase.countWords(DownloadFromInternet("doesn't matter what is here")).subscribe(subscriber)
+        useCase.countWords(DownloadFromInternet("")).subscribe(subscriber)
 
         subscriber.assertComplete()
         val result:WordsCounterProcessingCompleted = subscriber.values().last() as WordsCounterProcessingCompleted
-        assertArrayEquals(result.result.toTypedArray(), arrayOf("test", "text"))
+        assertArrayEquals( arrayOf("test", "text"), result.result.toTypedArray())
     }
 }

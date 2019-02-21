@@ -9,15 +9,15 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.util.concurrent.Callable
 
-fun textInputToFlowable(input:InputStream, chunkSize:Int):Flowable<WordProviderResult> {
+fun textInputToFlowable(input:InputStream, chunkSize:Int):Flowable<String> {
     val buffer = CharArray(chunkSize)
-    return Flowable.generate<WordProviderResult, InputStreamReader>(
+    return Flowable.generate<String, InputStreamReader>(
         Callable<InputStreamReader> { InputStreamReader(input) },
-        BiConsumer { input:InputStreamReader, emitter:Emitter<WordProviderResult> ->
+        BiConsumer { input:InputStreamReader, emitter:Emitter<String> ->
             val readed = input.read(buffer)
             when {
                 readed <= 0 -> emitter.onComplete()
-                else -> emitter.onNext(PartialResult(ProcessingProgress(0f), listOf(String(buffer, 0, readed)))) //TODO: implement splitting here
+                else -> emitter.onNext(String(buffer, 0, readed))
             }
         },
         Consumer<InputStreamReader> { stream:InputStreamReader -> stream.close() }

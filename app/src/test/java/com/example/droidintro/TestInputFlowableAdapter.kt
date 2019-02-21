@@ -12,7 +12,7 @@ class TestInputFlowableAdapter {
     fun testInputToFlowable() {
         //arrange
         val input = inputFromText("testdata x")
-        val testSubscriber = TestSubscriber<WordProviderResult>()
+        val testSubscriber = TestSubscriber<String>()
 
         //act
         textInputToFlowable(input, 4).subscribe(testSubscriber)
@@ -21,6 +21,6 @@ class TestInputFlowableAdapter {
         testSubscriber.assertComplete()
         testSubscriber.assertNoErrors()
         testSubscriber.assertValueCount(3)
-        assertArrayEquals(testSubscriber.values().map { when(it) { is PartialResult -> it.words.first() } }.toTypedArray(), arrayOf("test", "data", " x")) //TODO: remove workaround
+        assertArrayEquals(testSubscriber.values().toTypedArray(), arrayOf("test", "data", " x"))
     }
 }

@@ -1,4 +1,4 @@
-package com.example.droidintro
+package com.example.droidintro.wordprovider
 
 import io.reactivex.Flowable
 import io.reactivex.functions.BiFunction
@@ -16,7 +16,7 @@ private object Constants {
 
 private data class LastValueAccumulator(val result:Collection<String>, val lastWord:String)
 
-private fun textToWords(accumulator:LastValueAccumulator, chunkOfText:String):LastValueAccumulator {
+private fun textToWords(accumulator: LastValueAccumulator, chunkOfText:String): LastValueAccumulator {
     val result = mutableListOf<String>()
     val matcher = Constants.wordPattern.matcher(chunkOfText)
     var lastWordPosition = -2

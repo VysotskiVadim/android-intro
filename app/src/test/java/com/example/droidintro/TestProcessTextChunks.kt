@@ -1,5 +1,6 @@
 package com.example.droidintro
 
+import com.example.droidintro.wordprovider.splitTextChunksByWords
 import io.reactivex.BackpressureStrategy
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.subscribers.TestSubscriber
