@@ -1,31 +1,15 @@
 package com.example.droidintro
 
-import android.app.Activity
 import android.app.Application
-import dagger.android.AndroidInjector
-import dagger.android.HasActivityInjector
-import dagger.android.DispatchingAndroidInjector
-import javax.inject.Inject
+import com.example.droidintro.wordcountusecase.DaggerCountWordsInTextComponent
 
-class App : Application(), HasActivityInjector {
+class App : Application() {
 
-    @Inject
-    lateinit var dispatchingActivityInjector: DispatchingAndroidInjector<Activity>
-
-    override fun activityInjector(): AndroidInjector<Activity> {
-        return dispatchingActivityInjector
-    }
-
-    val component: AppComponent by lazy {
+    val component: AppComponent =
         DaggerAppComponent
             .builder()
-            .appModule(AppModule(this))
+            .countWordsInTextComponent(DaggerCountWordsInTextComponent.builder().build())
             .build()
-    }
 
-    override fun onCreate() {
-        super.onCreate()
-        component.inject(this)
-    }
 }
 

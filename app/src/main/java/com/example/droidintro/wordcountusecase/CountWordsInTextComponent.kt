@@ -3,9 +3,9 @@ package com.example.droidintro.wordcountusecase
 import com.example.droidintro.wordcountusecase.textprovider.TextProviderModule
 import com.example.droidintro.wordcountusecase.wordcounter.WordCounterModule
 import com.example.droidintro.wordcountusecase.wordprovider.WordsProviderModule
-import dagger.Subcomponent
+import dagger.Component
 
-@Subcomponent(modules = [
+@Component(modules = [
     TextProviderModule::class,
     WordsProviderModule::class,
     WordCounterModule::class

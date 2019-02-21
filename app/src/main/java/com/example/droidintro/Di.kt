@@ -1,28 +1,20 @@
 package com.example.droidintro
 
-import com.example.droidintro.ui.MainActivityBuilder
-import com.example.droidintro.ui.MainActivityComponent
-import com.example.droidintro.ui.MainActivityModule
+import com.example.droidintro.ui.MainActivity
+import com.example.droidintro.wordcountusecase.CountWordsInTextComponent
 import dagger.Component
 import dagger.Module
-import dagger.Provides
-import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Module
-class AppModule(val app: App) {
-    @Provides
-    @Singleton
-    fun provideApp() = app
+class AppModule() {
 }
 
 @Singleton
-@Component(modules = [
-    AppModule::class,
-    MainActivityBuilder::class,
-    MainActivityModule::class,
-    AndroidSupportInjectionModule::class
-])
+@Component(
+    modules = [ AppModule::class ],
+    dependencies = [CountWordsInTextComponent::class]
+)
 interface AppComponent {
-    fun inject(app: App)
+    fun inject(activity:MainActivity)
 }
