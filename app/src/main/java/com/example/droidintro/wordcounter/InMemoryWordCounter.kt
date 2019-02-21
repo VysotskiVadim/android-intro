@@ -8,19 +8,19 @@ import javax.inject.Inject
 
 class InMemoryWordsCounter @Inject constructor() : WordsCounter {
     override fun countWords(words: Flowable<WordProviderResult>): Flowable<WordsCounterResult> {
-        return countWordsInternal(words)
+        return words.countWordsInMemory()
     }
 }
 
-fun countWordsInternal(words: Flowable<WordProviderResult>): Flowable<WordsCounterResult> {
+fun Flowable<WordProviderResult>.countWordsInMemory(): Flowable<WordsCounterResult> {
     val wordToUsage = HashMap<String, Int>()
-    val result:Maybe<WordsCounterResult> = words.lastElement().map {
+    val result:Maybe<WordsCounterResult> = this.lastElement().map {
         when (it) {
             is PartialResult -> countWordsTo(it.words, wordToUsage)
         }
         WordsCounterProcessingCompleted(wordToUsage.map { Word(it.key, it.value) })
     }
-    return words.skipLast(1).doOnNext {
+    return this.skipLast(1).doOnNext {
             when(it) {
                 is PartialResult -> countWordsTo(it.words, wordToUsage)
             }
