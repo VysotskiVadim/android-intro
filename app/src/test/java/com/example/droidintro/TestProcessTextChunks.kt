@@ -33,7 +33,8 @@ class TestProcessTextChunks(private val input:Collection<String>, private val ex
     @Test
     fun testProcessTextSplitByChunks() {
         //arrange
-        val chunks = Flowable.generate( {input.iterator()}, fun ( state:Iterator<String>, emitter: Emitter<String>):Unit {
+        val iterator = input.iterator()
+        val chunks = Flowable.generate( {iterator}, fun ( state:Iterator<String>, emitter: Emitter<String>):Unit {
             if (state.hasNext()) {
                 emitter.onNext(state.next())
             }
