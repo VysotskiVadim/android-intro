@@ -2,6 +2,8 @@ package com.example.droidintro
 
 import com.example.droidintro.wordprovider.splitTextChunksByWords
 import io.reactivex.BackpressureStrategy
+import io.reactivex.Emitter
+import io.reactivex.Flowable
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.subscribers.TestSubscriber
 import org.junit.Assert
@@ -31,15 +33,18 @@ class TestProcessTextChunks(private val input:Collection<String>, private val ex
     @Test
     fun testProcessTextSplitByChunks() {
         //arrange
-        val chunks = Flowables.create<String>(BackpressureStrategy.BUFFER) {
-            for (i in input) {
-                it.onNext(i)
+        val chunks = Flowable.generate( {input.iterator()}, fun ( state:Iterator<String>, emitter: Emitter<String>):Unit {
+            if (state.hasNext()) {
+                emitter.onNext(state.next())
             }
-            it.onComplete()
-        }
+            else {
+                emitter.onComplete()
+            }
+        })
         val testSubscriber = TestSubscriber<Collection<String>>()
         //act
-        chunks.splitTextChunksByWords().subscribe(testSubscriber)
+        chunks.splitTextChunksByWords()
+            .subscribe(testSubscriber)
         //assert
         testSubscriber.assertComplete()
         testSubscriber.assertNoErrors()
