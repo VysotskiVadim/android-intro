@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class TextProviderImplementation @Inject constructor() : TextProvider {
     override fun getText(source: TextSource): Single<Text> {
-        TODO("use http ok here") //To change body of created functions use File | Settings | File Templates.
+        return Single.error(NotImplementedError("Http ok part not implemented"))
     }
 
 }
