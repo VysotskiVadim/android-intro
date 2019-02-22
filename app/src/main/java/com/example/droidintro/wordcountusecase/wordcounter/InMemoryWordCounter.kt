@@ -22,7 +22,7 @@ class CountWordsInMemoryOperator : FlowableOperator<WordsCounterResult, WordProv
 
     class WordCounterWrapper(private val results: Subscriber<in WordsCounterResult>) : FlowableSubscriber<WordProviderResult>, Subscription {
 
-        private val wordToUsage = HashMap<String, Int>()
+        private val wordToUsage = HashMap<String, Long>()
         private var subscription : Subscription? = null
 
         override fun onSubscribe(s: Subscription) {

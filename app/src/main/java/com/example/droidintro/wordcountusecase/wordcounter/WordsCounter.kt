@@ -8,7 +8,9 @@ interface WordsCounter {
     fun countWordsOperator(): FlowableOperator<WordsCounterResult, WordProviderResult>
 }
 
-data class Word(val value:String, var count:Int)
+data class Word(val value:String, var count:Long) {
+    val isPrime:Boolean = count.isPrimeNumber()
+}
 
 sealed class WordsCounterResult
 data class WordsCounterInProgress(val progress:ProcessingProgress) : WordsCounterResult()

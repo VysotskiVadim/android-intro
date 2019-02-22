@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun bind() {
         viewModel.screenState.observe(this, Observer<MainScreenState> { onNewState(it ?: ErrorState("State isn't initialized")) })
-        go_button.setOnClickListener { viewModel.go() }
+        go_button.setOnClickListener { viewModel.go("http://www.loyalbooks.com/download/text/Railway-Children-by-E-Nesbit.txt") }
     }
 
     private fun onNewState(state:MainScreenState) {

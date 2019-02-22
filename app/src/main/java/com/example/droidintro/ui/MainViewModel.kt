@@ -25,10 +25,10 @@ class MainViewModel @Inject constructor(private val counter: CountWordsInTextUse
 
     val screenState:LiveData<MainScreenState> get() = state
 
-    fun go() {
+    fun go(url:String) {
         if (state.value is ReadyToGo) {
             state.postValue(ProcessingInProgress())
-            currentTask = counter.countWords(DownloadFromInternet("http://www.loyalbooks.com/download/text/Railway-Children-by-E-Nesbit.txt"))
+            currentTask = counter.countWords(DownloadFromInternet(url))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.single())
                 .subscribe({
@@ -37,7 +37,7 @@ class MainViewModel @Inject constructor(private val counter: CountWordsInTextUse
                             //TODO: implement procegress ui
                         }
                         is WordsCounterProcessingCompleted -> {
-                            state.postValue(ProcessingCompleted(it.result))
+                            state.postValue(ProcessingCompleted(it.result.map { WordViewModel(it) })) //TODO: move mapping to other thread?
                         }
                     }
                 }, {
@@ -70,4 +70,4 @@ sealed class MainScreenState
 class ReadyToGo : MainScreenState()
 data class ErrorState(val message:String) : MainScreenState()
 class ProcessingInProgress : MainScreenState()
-data class ProcessingCompleted(val result:List<Word>) : MainScreenState()
+data class ProcessingCompleted(val result:List<WordViewModel>) : MainScreenState()
