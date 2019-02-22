@@ -45,7 +45,7 @@ class CountWordsUseCaseTest {
             Word("text", 1),
             Word("test", 2)
         )
-        Mockito.`when`(textProvider.getText(any())).thenReturn(Single.just<Text>(TextInStream(inputFromText("test text test"))))
+        Mockito.`when`(textProvider.getText(any())).thenReturn(Single.just<Text>(TextInStream(inputFromText("test text tEst"))))
         val subscriber = TestSubscriber<WordsCounterResult>()
         //act
         useCase.countWords(DownloadFromInternet("")).subscribe(subscriber)

@@ -29,11 +29,11 @@ private fun textToWords(accumulator: LastValueAccumulator, chunkOfText:String): 
         if (matcher.find()) {
             lastWordPosition = matcher.end()
             if (matcher.start() == 0) {
-                result.add(accumulator.lastWord + matcher.group())
+                result.add(accumulator.lastWord + matcher.group().toLowerCase())
             }
             else {
                 result.add(accumulator.lastWord)
-                result.add(matcher.group())
+                result.add(matcher.group().toLowerCase())
             }
         }
         else {
@@ -43,7 +43,7 @@ private fun textToWords(accumulator: LastValueAccumulator, chunkOfText:String): 
     }
 
     while (matcher.find()) {
-        result.add( matcher.group())
+        result.add( matcher.group().toLowerCase())
         lastWordPosition = matcher.end()
     }
 
