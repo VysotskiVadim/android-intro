@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.example.droidintro.App
 import com.example.droidintro.R
@@ -25,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         app.component.inject(this)
         setContentView(R.layout.activity_main)
+        initializeResultView()
+
         val viewModel = ViewModelProviders.of(this, mainScreenViewModelFactory).get(MainViewModel::class.java)
         bind(viewModel)
     }
@@ -46,6 +49,15 @@ class MainActivity : AppCompatActivity() {
                 error_message.visibility = View.VISIBLE
             }
             is ProcessingInProgress -> progress.visibility = View.VISIBLE
+            is ProcessingCompleted -> {
+                results.visibility = View.VISIBLE
+                results.adapter = WordsRecyclerViewAdapter(state.result)
+            }
         }
+    }
+
+    private fun initializeResultView() {
+        results.setHasFixedSize(true)
+        results.layoutManager =  LinearLayoutManager(this)
     }
 }

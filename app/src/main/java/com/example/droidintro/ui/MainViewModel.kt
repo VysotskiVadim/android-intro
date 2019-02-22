@@ -47,4 +47,4 @@ sealed class MainScreenState
 class ReadyToGo : MainScreenState()
 data class ErrorState(val message:String) : MainScreenState()
 class ProcessingInProgress : MainScreenState()
-data class ProcessingCompleted(val result:Collection<Word>) : MainScreenState()
+data class ProcessingCompleted(val result:List<Word>) : MainScreenState()
