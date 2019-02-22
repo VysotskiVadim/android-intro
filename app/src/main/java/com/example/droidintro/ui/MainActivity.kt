@@ -13,6 +13,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var viewModel:MainViewModel
+
     private val app:App
         get() = application as App
 
@@ -28,11 +30,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         initializeResultView()
 
-        val viewModel = ViewModelProviders.of(this, mainScreenViewModelFactory).get(MainViewModel::class.java)
-        bind(viewModel)
+        viewModel = ViewModelProviders.of(this, mainScreenViewModelFactory).get(MainViewModel::class.java)
+        bind()
     }
 
-    private fun bind(viewModel:MainViewModel) {
+    private fun bind() {
         viewModel.screenState.observe(this, Observer<MainScreenState> { onNewState(it ?: ErrorState("State isn't initialized")) })
         go_button.setOnClickListener { viewModel.go() }
     }
@@ -59,5 +61,12 @@ class MainActivity : AppCompatActivity() {
     private fun initializeResultView() {
         results.setHasFixedSize(true)
         results.layoutManager =  LinearLayoutManager(this)
+    }
+
+    override fun onBackPressed() {
+        if (!viewModel.back()) {
+            super.onBackPressed()
+        }
+
     }
 }

@@ -9,10 +9,14 @@ import com.example.droidintro.wordcountusecase.wordcounter.Word
 import com.example.droidintro.wordcountusecase.wordcounter.WordsCounterInProgress
 import com.example.droidintro.wordcountusecase.wordcounter.WordsCounterProcessingCompleted
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(private val counter: CountWordsInTextUseCase) : ViewModel() {
+
+    private var currentTask:Disposable? = null
 
     private val state:MutableLiveData<MainScreenState> = MutableLiveData()
     init {
@@ -24,7 +28,7 @@ class MainViewModel @Inject constructor(private val counter: CountWordsInTextUse
     fun go() {
         if (state.value is ReadyToGo) {
             state.postValue(ProcessingInProgress())
-            counter.countWords(DownloadFromInternet("http://www.loyalbooks.com/download/text/Railway-Children-by-E-Nesbit.txt"))
+            currentTask = counter.countWords(DownloadFromInternet("http://www.loyalbooks.com/download/text/Railway-Children-by-E-Nesbit.txt"))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.single())
                 .subscribe({
@@ -39,6 +43,25 @@ class MainViewModel @Inject constructor(private val counter: CountWordsInTextUse
                 }, {
                     state.postValue(ErrorState(it.message ?: "unknown error"))
                 })
+        }
+    }
+
+    fun back(): Boolean {
+        return when (state.value) {
+            is ProcessingInProgress -> {
+                currentTask?.dispose()
+                state.postValue(ReadyToGo())
+                true
+            }
+            is ProcessingCompleted -> {
+                state.postValue(ReadyToGo())
+                true
+            }
+            is ErrorState -> {
+                state.postValue(ReadyToGo())
+                true
+            }
+            else -> false
         }
     }
 }
