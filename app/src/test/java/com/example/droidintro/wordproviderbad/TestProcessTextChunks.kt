@@ -1,6 +1,6 @@
-package com.example.droidintro
+package com.example.droidintro.wordproviderbad
 
-import com.example.droidintro.wordcountusecase.wordprovider.splitTextChunksByWords
+import com.example.droidintro.wordcountusecase.wordprovider.badimplementation.splitTextChunksByWords
 import io.reactivex.Emitter
 import io.reactivex.Flowable
 import io.reactivex.subscribers.TestSubscriber

@@ -1,4 +1,4 @@
-package com.example.droidintro.wordcountusecase.wordprovider
+package com.example.droidintro.wordcountusecase.wordprovider.badimplementation
 
 import io.reactivex.Emitter
 import io.reactivex.Flowable

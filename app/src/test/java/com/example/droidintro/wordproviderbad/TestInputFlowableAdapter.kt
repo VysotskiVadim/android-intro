@@ -1,6 +1,7 @@
-package com.example.droidintro
+package com.example.droidintro.wordproviderbad
 
-import com.example.droidintro.wordcountusecase.wordprovider.textInputToFlowable
+import com.example.droidintro.inputFromText
+import com.example.droidintro.wordcountusecase.wordprovider.badimplementation.textInputToFlowable
 import io.reactivex.subscribers.TestSubscriber
 import org.junit.Test
 import org.junit.Assert.*

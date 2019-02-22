@@ -1,11 +1,15 @@
-package com.example.droidintro.wordcountusecase.wordprovider
+package com.example.droidintro.wordcountusecase.wordprovider.badimplementation
 
 import io.reactivex.Flowable
 import io.reactivex.functions.BiFunction
 import java.util.regex.Pattern
 
 fun Flowable<String>.splitTextChunksByWords():Flowable<Collection<String>> {
-    val wordsFromText = this.publish().refCount(2).scan(LastValueAccumulator(listOf(), ""), BiFunction(::textToWords))
+    val wordsFromText = this.publish().refCount(2).scan(
+        LastValueAccumulator(
+            listOf(),
+            ""
+        ), BiFunction(::textToWords))
     val accumulatedWord = wordsFromText.takeLast(1).filter { it.lastWord.isNotEmpty() }.map { listOf(it.lastWord) }
     val words = wordsFromText.filter { it.result.isNotEmpty() }.map { it.result }
     return words.mergeWith(accumulatedWord)
