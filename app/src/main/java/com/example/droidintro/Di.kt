@@ -10,10 +10,8 @@ import javax.inject.Singleton
 class AppModule() {
 }
 
-@Singleton
 @Component(
-    modules = [ AppModule::class ],
-    dependencies = [CountWordsInTextComponent::class]
+    modules = [ AppModule::class ]
 )
 interface AppComponent {
     fun inject(activity:MainActivity)
