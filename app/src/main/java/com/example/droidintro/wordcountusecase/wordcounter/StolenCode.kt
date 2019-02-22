@@ -2,7 +2,7 @@ package com.example.droidintro.wordcountusecase.wordcounter
 
 //source: https://www.programiz.com/kotlin-programming/examples/prime-number
 fun Long.isPrimeNumber():Boolean {
-    var i = 2
+    var i = 2L
     var flag = false
     while (i <= this / 2) {
         // condition for nonprime number
@@ -12,6 +12,5 @@ fun Long.isPrimeNumber():Boolean {
         }
         ++i
     }
-
-    return flag
+    return !flag
 }
