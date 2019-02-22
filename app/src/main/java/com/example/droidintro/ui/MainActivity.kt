@@ -37,12 +37,15 @@ class MainActivity : AppCompatActivity() {
     private fun onNewState(state:MainScreenState) {
         error_message.visibility = View.GONE
         go_button.visibility = View.GONE
+        results.visibility = View.GONE
+        progress.visibility = View.GONE
         when (state) {
             is ReadyToGo -> go_button.visibility = View.VISIBLE
             is ErrorState -> {
                 error_message.text = state.message
                 error_message.visibility = View.VISIBLE
             }
+            is ProcessingInProgress -> progress.visibility = View.VISIBLE
         }
     }
 }
