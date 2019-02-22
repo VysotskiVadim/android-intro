@@ -1,8 +1,8 @@
 package com.example.droidintro
 
+import com.example.droidintro.wordcountusecase.wordcounter.CountWordsInMemoryOperator
 import com.example.droidintro.wordcountusecase.wordcounter.WordsCounterProcessingCompleted
 import com.example.droidintro.wordcountusecase.wordcounter.WordsCounterResult
-import com.example.droidintro.wordcountusecase.wordcounter.countWordsInMemory
 import com.example.droidintro.wordcountusecase.wordprovider.PartialResult
 import com.example.droidintro.wordcountusecase.wordprovider.WordProviderResult
 import io.reactivex.Emitter
@@ -17,12 +17,12 @@ class InMemoryWordsCounterTest {
         val input = Flowable.generate<WordProviderResult, Int>({ 0 }, ::tenWords)
         val testSubscriber = TestSubscriber<WordsCounterResult>()
 
-        input.countWordsInMemory().subscribe(testSubscriber)
+        input.lift(CountWordsInMemoryOperator()).subscribe(testSubscriber)
 
         testSubscriber.assertComplete()
         val result: WordsCounterProcessingCompleted = testSubscriber.values().last() as WordsCounterProcessingCompleted
         assertEquals(1, result.result.size)
-        assertEquals("ha ha", result.result.first().value)
+        assertEquals("haha", result.result.first().value)
         assertEquals(10, result.result.first().count) 
     }
 }
@@ -32,7 +32,7 @@ fun tenWords(state:Int, emitter:Emitter<WordProviderResult>):Int {
         emitter.onComplete()
     }
     else {
-        emitter.onNext(PartialResult(ProcessingProgress(0f), listOf("ha ha")))
+        emitter.onNext(PartialResult(ProcessingProgress(0f), listOf("haha")))
     }
     return state + 1
 }

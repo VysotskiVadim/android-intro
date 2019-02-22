@@ -14,8 +14,8 @@ class CountWordsInTextUseCase @Inject constructor(
     private val wordsProvider:WordsProvider,
     private val wordsCounter:WordsCounter
 ) {
-    fun countWords(source: TextSource):Flowable<WordsCounterResult> {
-        val words:Flowable<WordProviderResult> = textProvider.getText(source).map { wordsProvider.getWords(it) }.flatMapPublisher { it }
-        return wordsCounter.countWords(words)
-    }
+    fun countWords(source: TextSource):Flowable<WordsCounterResult> = textProvider.getText(source)
+            .map { wordsProvider.getWords(it) }
+            .flatMapPublisher { it }
+            .lift(wordsCounter.countWordsOperator())
 }

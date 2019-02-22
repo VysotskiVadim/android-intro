@@ -2,44 +2,70 @@ package com.example.droidintro.wordcountusecase.wordcounter
 
 import com.example.droidintro.wordcountusecase.wordprovider.PartialResult
 import com.example.droidintro.wordcountusecase.wordprovider.WordProviderResult
-import io.reactivex.Flowable
+import io.reactivex.FlowableOperator
+import io.reactivex.FlowableSubscriber
+import org.reactivestreams.Subscriber
+import org.reactivestreams.Subscription
 import javax.inject.Inject
 
 class InMemoryWordsCounter @Inject constructor() : WordsCounter {
-    override fun countWords(words: Flowable<WordProviderResult>): Flowable<WordsCounterResult> {
-        return words.countWordsInMemory()
+    override fun countWordsOperator(): FlowableOperator<WordsCounterResult, WordProviderResult> {
+        return CountWordsInMemoryOperator()
     }
 }
 
-fun Flowable<WordProviderResult>.countWordsInMemory(): Flowable<WordsCounterResult> {
-    val wordToUsage = HashMap<String, Int>()
-    val input = this.publish().refCount(2)
-    val result = input.takeLast(1).map {
-        when (it) {
-            is PartialResult -> countWordsTo(it.words, wordToUsage)
-        }
-        WordsCounterProcessingCompleted(wordToUsage.map { Word(it.key, it.value) })
-    }
-    return input.skipLast(1).doOnNext {
-            when(it) {
-                is PartialResult -> countWordsTo(it.words, wordToUsage)
-            }
-        }
-        .map {
-            when(it) {
-                is PartialResult -> WordsCounterInProgress(it.progress) as WordsCounterResult //TODO: remove cast workaround
-            }
-        }
-        .mergeWith(result)
-}
+class CountWordsInMemoryOperator : FlowableOperator<WordsCounterResult, WordProviderResult> {
 
-private fun countWordsTo(words:Collection<String>, map:MutableMap<String, Int>) {
-    for (word in words) {
-        if (map.contains(word)) {
-            map[word] = map[word]!!.plus(1)
+    override fun apply(subscriber: Subscriber<in WordsCounterResult>): Subscriber<in WordProviderResult> {
+        return WordCounterWrapper(subscriber)
+    }
+
+    class WordCounterWrapper(private val results: Subscriber<in WordsCounterResult>) : FlowableSubscriber<WordProviderResult>, Subscription {
+
+        private val wordToUsage = HashMap<String, Int>()
+        private var subscription : Subscription? = null
+
+        override fun onSubscribe(s: Subscription) {
+            subscription = s
+            results.onSubscribe(this)
         }
-        else {
-            map[word] = 1
+
+        override fun cancel() {
+            subscription?.cancel()
+        }
+
+        override fun request(n: Long) {
+            subscription?.request(n)
+        }
+
+        override fun onNext(t: WordProviderResult?) {
+            if (t == null) return
+            when (t) {
+                is PartialResult -> {
+                    applyWordsPack(t.words)
+                    results.onNext(WordsCounterInProgress(t.progress))
+                }
+            }
+        }
+
+        override fun onError(t: Throwable?) {
+            results.onError(t)
+        }
+
+        override fun onComplete() {
+            results.onNext(WordsCounterProcessingCompleted(wordToUsage.map { Word(it.key, it.value) }))
+            results.onComplete()
+        }
+
+        private fun applyWordsPack(words:Collection<String>) {
+            for (word in words) {
+                if (wordToUsage.contains(word)) {
+                    wordToUsage[word] = wordToUsage[word]!!.plus(1)
+                }
+                else {
+                    wordToUsage[word] = 1
+                }
+            }
         }
     }
 }
