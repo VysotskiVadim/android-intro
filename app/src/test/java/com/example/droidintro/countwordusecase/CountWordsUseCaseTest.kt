@@ -39,7 +39,7 @@ class CountWordsUseCaseTest {
     }
 
     @Test
-    fun test() {
+    fun testPositiveScenario() {
         //arrange
         val expectedResultSortedByWords = arrayOf(
             Word("text", 1),
@@ -55,5 +55,16 @@ class CountWordsUseCaseTest {
         assertTrue("last value should be WordsCounterProcessingCompleted", lastValue is WordsCounterProcessingCompleted)
         val result:WordsCounterProcessingCompleted = lastValue as WordsCounterProcessingCompleted
         assertArrayEquals( expectedResultSortedByWords , result.result.sortedByDescending { it.value }.toTypedArray())
+    }
+
+    @Test
+    fun testNegativeScenario() {
+
+        Mockito.`when`(textProvider.getText(any())).thenReturn(Single.error(Error("mocked i/o error")))
+        val subscriber = TestSubscriber<WordsCounterResult>()
+        //act
+        useCase.countWords(DownloadFromInternet("")).subscribe(subscriber)
+        //assert
+        subscriber.assertError(Error::class.java)
     }
 }
