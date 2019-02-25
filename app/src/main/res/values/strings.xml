@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Droid Intro</string>
+    <string name="go_test">Go</string>
 </resources>
